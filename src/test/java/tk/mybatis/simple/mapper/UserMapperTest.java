@@ -212,4 +212,49 @@ public class UserMapperTest extends BaseMapperTest {
 			sqlSession.close();
 		}
 	}
+
+	@Test
+	public void testSelectRolesByUserIdAndRoleEnabled() {
+		SqlSession sqlSession = getSqlSession();
+		try {
+			UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+			List<SysRole> roleList = userMapper.selectRolesByUserIdAndRoleEnabled(1L,1);
+
+			Assert.assertNotNull(roleList);
+			Assert.assertTrue(roleList.size() > 0);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			sqlSession.close();
+		}
+	}
+	
+	@Test
+	public void testSelectRolesByUserAndRole() {
+		SqlSession sqlSession = getSqlSession();
+		try {
+			UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+			RoleMapper roleMapper = sqlSession.getMapper(RoleMapper.class);
+			
+			//查詢一個User對像
+			SysUser user = userMapper.selectById(1L);
+			Assert.assertEquals("admin", user.getUserName());
+			
+			//查詢一個Role對像
+			SysRole role = roleMapper.selectById(1L);
+			Assert.assertEquals("管理員", role.getRoleName());
+			
+			//根據User對像和Role對像查詢Role清單
+			List<SysRole> roleList = userMapper.selectRolesByUserAndRole(user, role);
+			Assert.assertNotNull(roleList);
+			Assert.assertTrue(roleList.size() > 0);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			sqlSession.close();
+		}
+	}
+
 }

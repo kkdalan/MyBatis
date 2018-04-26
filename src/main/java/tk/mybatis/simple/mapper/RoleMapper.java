@@ -1,5 +1,9 @@
 package tk.mybatis.simple.mapper;
 
-public interface RoleMapper {
+import tk.mybatis.simple.model.SysRole;
 
+public interface RoleMapper {
+	
+	public SysRole selectById(Long id);
+	
 }
