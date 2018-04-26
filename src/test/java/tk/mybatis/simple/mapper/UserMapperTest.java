@@ -235,15 +235,14 @@ public class UserMapperTest extends BaseMapperTest {
 		SqlSession sqlSession = getSqlSession();
 		try {
 			UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
-			RoleMapper roleMapper = sqlSession.getMapper(RoleMapper.class);
 			
 			//查詢一個User對像
 			SysUser user = userMapper.selectById(1L);
 			Assert.assertEquals("admin", user.getUserName());
 			
 			//查詢一個Role對像
-			SysRole role = roleMapper.selectById(1L);
-			Assert.assertEquals("管理員", role.getRoleName());
+			SysRole role = new SysRole();
+			role.setId(1L);
 			
 			//根據User對像和Role對像查詢Role清單
 			List<SysRole> roleList = userMapper.selectRolesByUserAndRole(user, role);
