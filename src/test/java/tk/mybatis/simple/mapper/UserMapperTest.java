@@ -1,5 +1,6 @@
 package tk.mybatis.simple.mapper;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -371,4 +372,70 @@ public class UserMapperTest extends BaseMapperTest {
 		}
 	}
 
+	@Test
+	public void testSelectByIdList() {
+		SqlSession sqlSession = getSqlSession();
+		try {
+			UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+			//測試List
+			List<Long> idList = new ArrayList<Long>();
+			idList.add(1L);
+			idList.add(1001L);
+			List<SysUser> userList = userMapper.selectByIdList(idList);
+			Assert.assertEquals(2, userList.size());
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			sqlSession.close();
+		}
+	}
+	
+	@Test
+	public void testSelectByIdArray() {
+		SqlSession sqlSession = getSqlSession();
+		try {
+			UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+			//測試Array
+			Long[] idArray = {1L,1001L};
+			List<SysUser> userList = userMapper.selectByIdArray(idArray);
+			Assert.assertEquals(2, userList.size());
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			sqlSession.close();
+		}
+	}
+	
+	@Test
+	public void testInsertList() {
+		SqlSession sqlSession = getSqlSession();
+		try {
+			UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+			
+			List<SysUser> userList = new ArrayList<SysUser>();
+			for (int i = 0; i < 5; i++) {
+				SysUser user = new SysUser();
+				user.setUserName("test_"+i);
+				user.setUserPassword("123456");
+				user.setUserEmail("test@mybatis.tk");
+				user.setCreateTime(new Date());
+				userList.add(user);
+			}
+			int result = userMapper.insertList(userList);
+			Assert.assertEquals(5, result);
+			
+			for (SysUser user : userList) {
+				System.out.println("user.id = " + user.getId());
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+//			sqlSession.commit();
+			sqlSession.rollback();
+			sqlSession.close();
+		}
+	}
 }

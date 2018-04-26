@@ -38,4 +38,10 @@ public interface UserMapper {
 	public int insert2Selective(SysUser sysUser);
 	
 	public SysUser selectByIdOrUserName(SysUser sysUser);
+	
+	public List<SysUser> selectByIdList(List<Long> idList);
+	
+	public List<SysUser> selectByIdArray(Long[] idArray);
+	
+	public int insertList(List<SysUser> userList);
 }
