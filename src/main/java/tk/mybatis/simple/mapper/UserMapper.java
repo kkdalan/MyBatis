@@ -1,6 +1,7 @@
 package tk.mybatis.simple.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -44,4 +45,7 @@ public interface UserMapper {
 	public List<SysUser> selectByIdArray(Long[] idArray);
 	
 	public int insertList(List<SysUser> userList);
+	
+	public int updateByMap(Map<String, Object> map);
+	
 }

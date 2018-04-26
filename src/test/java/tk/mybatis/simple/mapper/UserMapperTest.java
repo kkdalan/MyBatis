@@ -2,7 +2,9 @@ package tk.mybatis.simple.mapper;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Assert;
@@ -429,6 +431,30 @@ public class UserMapperTest extends BaseMapperTest {
 			for (SysUser user : userList) {
 				System.out.println("user.id = " + user.getId());
 			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+//			sqlSession.commit();
+			sqlSession.rollback();
+			sqlSession.close();
+		}
+	}
+	
+	@Test
+	public void testUpdateByMap() {
+		SqlSession sqlSession = getSqlSession();
+		try {
+			UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+			Map<String,Object> userMap = new HashMap<String,Object>();
+			userMap.put("id", 1L);
+			userMap.put("user_password", "12345678");
+			userMap.put("user_email", "test@mybatis.tk");
+			//更新數據
+			userMapper.updateByMap(userMap);
+			//查詢修改後數據
+			SysUser user = userMapper.selectById(1L);
+			Assert.assertEquals("12345678", user.getUserPassword());
 
 		} catch (Exception e) {
 			e.printStackTrace();
