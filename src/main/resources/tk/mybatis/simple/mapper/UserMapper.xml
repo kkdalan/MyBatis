@@ -63,23 +63,6 @@
 	        #{createTime, jdbcType=TIMESTAMP})
 	</insert>
 	
-	
-	<insert id="insert2Selective" useGeneratedKeys="true" keyProperty="id">
-	    insert into sys_user(
-	    	user_name, user_password,
-	    	<if test="userEmail != null and userEmail != ''">
-				user_email,
-			</if>   
-	    	user_info, head_img, create_time)
-	    values(
-	        #{userName}, #{userPassword},
-	        <if test="userEmail != null and userEmail != ''">
-				#{userEmail},
-			</if>
-	        #{userInfo}, #{headImg, jdbcType=BLOB},
-	        #{createTime, jdbcType=TIMESTAMP})
-	</insert>
-	
 	<insert id="insert3">
 	    insert into sys_user(
 	    	user_name, user_password, user_email,
@@ -176,4 +159,43 @@
 	    id = #{id}	
 	    where id = #{id}
 	</update>
+	
+	<insert id="insert2Selective" useGeneratedKeys="true" keyProperty="id">
+	    insert into sys_user(
+	    	user_name, user_password,
+	    	<if test="userEmail != null and userEmail != ''">
+				user_email,
+			</if>   
+	    	user_info, head_img, create_time)
+	    values(
+	        #{userName}, #{userPassword},
+	        <if test="userEmail != null and userEmail != ''">
+				#{userEmail},
+			</if>
+	        #{userInfo}, #{headImg, jdbcType=BLOB},
+	        #{createTime, jdbcType=TIMESTAMP})
+	</insert>
+	
+	<select id="selectByIdOrUserName" resultType="tk.mybatis.simple.model.SysUser">
+		select id,
+		    user_name userName,
+		    user_password userPassword,
+		    user_email userEmail,
+		    user_info userInfo,
+		    head_img headImg,
+		    create_time createTime
+		from sys_user
+		where 1 = 1
+		<choose>
+			<when test="id != null">
+				and id = #{id}
+			</when>
+			<when test="userName != null and userName != ''">
+				and user_name = #{userName}
+			</when>
+			<otherwise>
+				and 1 = 2
+			</otherwise>
+		</choose>
+	</select>
 </mapper> 

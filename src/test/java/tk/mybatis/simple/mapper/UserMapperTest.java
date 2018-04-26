@@ -277,7 +277,7 @@ public class UserMapperTest extends BaseMapperTest {
 			//當同時查詢用戶名與用戶郵箱時
 			query = new SysUser();
 			query.setUserName("ad");
-			query.setUserEmail("admin@mybatis.tk");
+			query.setUserEmail("test@mybatis.tk");
 			userList = userMapper.selectByUser(query);
 			Assert.assertTrue(userList.size() == 0);
 			
@@ -337,6 +337,36 @@ public class UserMapperTest extends BaseMapperTest {
 		} finally {
 //			sqlSession.commit();
 			sqlSession.rollback();
+			sqlSession.close();
+		}
+	}
+	
+	@Test
+	public void testSelectByIdOrUserName() {
+		SqlSession sqlSession = getSqlSession();
+		try {
+			UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+			
+			//只查詢Id與用戶名時
+			SysUser query = new SysUser();
+			query.setId(1L);
+			query.setUserName("admin");
+			SysUser user = userMapper.selectByIdOrUserName(query);
+			Assert.assertNotNull(user);
+			
+			//當沒有Id時
+			query.setId(null);
+			user = userMapper.selectByIdOrUserName(query);
+			Assert.assertNotNull(user);
+
+			//當同時沒有Id與name時
+			query.setUserName(null);
+			user = userMapper.selectByIdOrUserName(query);
+			Assert.assertNull(user);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
 			sqlSession.close();
 		}
 	}

@@ -36,4 +36,6 @@ public interface UserMapper {
 	public int updateByIdSelective(SysUser sysUser);
 	
 	public int insert2Selective(SysUser sysUser);
+	
+	public SysUser selectByIdOrUserName(SysUser sysUser);
 }
