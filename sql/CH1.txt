@@ -1,0 +1,12 @@
+CREATE DATABASE mybatis DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE mybatis;
+
+CREATE TABLE  country(
+   id int NOT NULL AUTO_INCREMENT,  
+   countryname varchar(255) NOT NULL,
+   countrycode varchar(255) NOT NULL,
+   PRIMARY KEY (id)
+);
+
+INSERT country(countryname,countrycode)
+VALUES('中國','CN'),('美國','US'),('俄羅斯','RU'),('英國','GB'),('法國','FR');

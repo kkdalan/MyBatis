@@ -1,0 +1,69 @@
+USE mybatis;
+
+-- DDL
+CREATE TABLE sys_user(
+   id bigint NOT NULL AUTO_INCREMENT comment '用戶ID',  
+   user_name varchar(50) comment '用戶名',  
+   user_password varchar(50) comment '密碼',  
+   user_email varchar(50) comment '郵箱',  
+   user_info text comment '簡介',
+   head_img blob comment '頭像',
+   create_time datetime comment '創建時間',  
+   PRIMARY KEY (id)
+);
+alter table sys_user comment '用戶表';
+
+CREATE TABLE sys_role(
+   id bigint NOT NULL AUTO_INCREMENT comment '角色ID',  
+   role_name varchar(50) comment '角色名',  
+   enabled int comment '有效標誌',  
+   create_by bigint comment '創建人',  
+   create_time datetime comment '創建時間',  
+   PRIMARY KEY (id)
+);
+alter table sys_role comment '角色表';
+
+CREATE TABLE sys_privilege(
+   id bigint NOT NULL AUTO_INCREMENT comment '權限ID',  
+   privilege_name varchar(50) comment '權限名稱',  
+   privilege_url varchar(200) comment '權限URL',  
+   PRIMARY KEY (id)
+);
+alter table sys_privilege comment '權限表';
+
+CREATE TABLE sys_user_role(
+   user_id bigint comment '用戶ID',  
+   role_id bigint comment '角色ID' 
+);
+alter table sys_user_role comment '用戶角色關聯表';
+
+CREATE TABLE sys_role_privilege(
+   role_id bigint comment '角色ID',
+   privilege_id bigint comment '權限ID'
+);
+alter table sys_role_privilege comment '角色權限關聯表';
+
+-- INIT DATA
+INSERT INTO sys_user VALUES(1,'admin','123456','admin@mybatis.tk','管理員',null,'2016-04-01 17:00:58');
+INSERT INTO sys_user VALUES(1001,'test','123456','test@mybatis.tk','測試用戶',null,'2016-04-01 17:01:52'); 
+
+INSERT INTO sys_role VALUES(1,'管理員',1,1,'2016-04-01 17:02:14');
+INSERT INTO sys_role VALUES(2,'普通用戶',1,1,'2016-04-01 17:02:34');
+
+INSERT INTO sys_user_role VALUES(1,1);
+INSERT INTO sys_user_role VALUES(1,2);
+INSERT INTO sys_user_role VALUES(1001,2);
+
+INSERT INTO sys_privilege VALUES(1,'用戶管理','/users');
+INSERT INTO sys_privilege VALUES(2,'角色管理','/roles');
+INSERT INTO sys_privilege VALUES(3,'系統日誌','/logs');
+INSERT INTO sys_privilege VALUES(4,'人員維護','/persons');
+INSERT INTO sys_privilege VALUES(5,'單位維護','/companies');
+
+INSERT INTO sys_role_privilege VALUES(1,1);
+INSERT INTO sys_role_privilege VALUES(1,3);
+INSERT INTO sys_role_privilege VALUES(1,2);
+INSERT INTO sys_role_privilege VALUES(2,4);
+INSERT INTO sys_role_privilege VALUES(2,5);
+
+SELECT * FROM sys_user
