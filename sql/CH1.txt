@@ -9,4 +9,4 @@ CREATE TABLE  country(
 );
 
 INSERT country(countryname,countrycode)
-VALUES('¤¤°ê','CN'),('¬ü°ê','US'),('«XÃ¹´µ','RU'),('­^°ê','GB'),('ªk°ê','FR');
+VALUES('ä¸­åœ‹','CN'),('ç¾Žåœ‹','US'),('ä¿„ç¾…æ–¯','RU'),('è‹±åœ‹','GB'),('æ³•åœ‹','FR');

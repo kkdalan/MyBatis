@@ -18,7 +18,7 @@ public interface UserMapper {
 	public int insert(SysUser sysUser);
 
 	public int insert2(SysUser sysUser);
-
+	
 	public int insert3(SysUser sysUser);
 
 	public int updateById(SysUser sysUser);
@@ -31,4 +31,9 @@ public interface UserMapper {
 
 	public List<SysRole> selectRolesByUserAndRole(@Param("user") SysUser user, @Param("role") SysRole role);
 
+	public List<SysUser> selectByUser(SysUser sysUser);
+	
+	public int updateByIdSelective(SysUser sysUser);
+	
+	public int insert2Selective(SysUser sysUser);
 }

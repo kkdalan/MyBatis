@@ -256,4 +256,89 @@ public class UserMapperTest extends BaseMapperTest {
 		}
 	}
 
+	@Test
+	public void testSelectByUser() {
+		SqlSession sqlSession = getSqlSession();
+		try {
+			UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+			
+			//只查詢用戶名時
+			SysUser query = new SysUser();
+			query.setUserName("ad");
+			List<SysUser> userList = userMapper.selectByUser(query);
+			Assert.assertTrue(userList.size() > 0);
+			
+			//只查詢用戶郵箱時
+			query = new SysUser();
+			query.setUserEmail("test@mybatis.tk");
+			userList = userMapper.selectByUser(query);
+			Assert.assertTrue(userList.size() > 0);
+
+			//當同時查詢用戶名與用戶郵箱時
+			query = new SysUser();
+			query.setUserName("ad");
+			query.setUserEmail("admin@mybatis.tk");
+			userList = userMapper.selectByUser(query);
+			Assert.assertTrue(userList.size() == 0);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			sqlSession.close();
+		}
+	}
+	
+	@Test
+	public void testUpdateByIdSelective() {
+		SqlSession sqlSession = getSqlSession();
+		try {
+			UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+			
+			//創建一個User對像
+			SysUser user = new SysUser();
+			user.setId(1L);
+			user.setUserEmail("test@mybatis.tk");
+			int result = userMapper.updateByIdSelective(user);
+			//只更新一筆數據
+			Assert.assertEquals(1, result);
+			
+			//檢查修改後的名字
+			user = userMapper.selectById(1L);
+			Assert.assertEquals("admin", user.getUserName());
+			Assert.assertEquals("test@mybatis.tk", user.getUserEmail());
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+//			sqlSession.commit();
+			sqlSession.rollback();
+			sqlSession.close();
+		}
+	}
+
+	@Test
+	public void testInsert2Selective() {
+		SqlSession sqlSession = getSqlSession();
+		try {
+			UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+			SysUser user = new SysUser();
+			user.setUserName("test-selective");
+			user.setUserPassword("123456");
+			user.setUserInfo("test info");
+			user.setCreateTime(new Date());
+			//插入數據庫
+			userMapper.insert2Selective(user);
+			//查詢插入的這筆數據
+			user = userMapper.selectById(user.getId());
+			Assert.assertEquals("test@mybatis.tk", user.getUserEmail());
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+//			sqlSession.commit();
+			sqlSession.rollback();
+			sqlSession.close();
+		}
+	}
+
 }

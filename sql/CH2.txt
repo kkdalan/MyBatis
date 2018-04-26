@@ -2,63 +2,63 @@ USE mybatis;
 
 -- DDL
 CREATE TABLE sys_user(
-   id bigint NOT NULL AUTO_INCREMENT comment '¥Î¤áID',  
-   user_name varchar(50) comment '¥Î¤á¦W',  
-   user_password varchar(50) comment '±K½X',  
-   user_email varchar(50) comment '¶l½c',  
-   user_info text comment 'Â²¤¶',
-   head_img blob comment 'ÀY¹³',
-   create_time datetime comment '³Ğ«Ø®É¶¡',  
+   id bigint NOT NULL AUTO_INCREMENT comment 'ç”¨æˆ¶ID',  
+   user_name varchar(50) comment 'ç”¨æˆ¶å',  
+   user_password varchar(50) comment 'å¯†ç¢¼',  
+   user_email varchar(50) comment 'éƒµç®±',  
+   user_info text comment 'ç°¡ä»‹',
+   head_img blob comment 'é ­åƒ',
+   create_time datetime comment 'å‰µå»ºæ™‚é–“',  
    PRIMARY KEY (id)
 );
-alter table sys_user comment '¥Î¤áªí';
+alter table sys_user comment 'ç”¨æˆ¶è¡¨';
 
 CREATE TABLE sys_role(
-   id bigint NOT NULL AUTO_INCREMENT comment '¨¤¦âID',  
-   role_name varchar(50) comment '¨¤¦â¦W',  
-   enabled int comment '¦³®Ä¼Ğ»x',  
-   create_by bigint comment '³Ğ«Ø¤H',  
-   create_time datetime comment '³Ğ«Ø®É¶¡',  
+   id bigint NOT NULL AUTO_INCREMENT comment 'è§’è‰²ID',  
+   role_name varchar(50) comment 'è§’è‰²å',  
+   enabled int comment 'æœ‰æ•ˆæ¨™èªŒ',  
+   create_by bigint comment 'å‰µå»ºäºº',  
+   create_time datetime comment 'å‰µå»ºæ™‚é–“',  
    PRIMARY KEY (id)
 );
-alter table sys_role comment '¨¤¦âªí';
+alter table sys_role comment 'è§’è‰²è¡¨';
 
 CREATE TABLE sys_privilege(
-   id bigint NOT NULL AUTO_INCREMENT comment 'Åv­­ID',  
-   privilege_name varchar(50) comment 'Åv­­¦WºÙ',  
-   privilege_url varchar(200) comment 'Åv­­URL',  
+   id bigint NOT NULL AUTO_INCREMENT comment 'æ¬Šé™ID',  
+   privilege_name varchar(50) comment 'æ¬Šé™åç¨±',  
+   privilege_url varchar(200) comment 'æ¬Šé™URL',  
    PRIMARY KEY (id)
 );
-alter table sys_privilege comment 'Åv­­ªí';
+alter table sys_privilege comment 'æ¬Šé™è¡¨';
 
 CREATE TABLE sys_user_role(
-   user_id bigint comment '¥Î¤áID',  
-   role_id bigint comment '¨¤¦âID' 
+   user_id bigint comment 'ç”¨æˆ¶ID',  
+   role_id bigint comment 'è§’è‰²ID' 
 );
-alter table sys_user_role comment '¥Î¤á¨¤¦âÃöÁpªí';
+alter table sys_user_role comment 'ç”¨æˆ¶è§’è‰²é—œè¯è¡¨';
 
 CREATE TABLE sys_role_privilege(
-   role_id bigint comment '¨¤¦âID',
-   privilege_id bigint comment 'Åv­­ID'
+   role_id bigint comment 'è§’è‰²ID',
+   privilege_id bigint comment 'æ¬Šé™ID'
 );
-alter table sys_role_privilege comment '¨¤¦âÅv­­ÃöÁpªí';
+alter table sys_role_privilege comment 'è§’è‰²æ¬Šé™é—œè¯è¡¨';
 
 -- INIT DATA
-INSERT INTO sys_user VALUES(1,'admin','123456','admin@mybatis.tk','ºŞ²z­û',null,'2016-04-01 17:00:58');
-INSERT INTO sys_user VALUES(1001,'test','123456','test@mybatis.tk','´ú¸Õ¥Î¤á',null,'2016-04-01 17:01:52'); 
+INSERT INTO sys_user VALUES(1,'admin','123456','admin@mybatis.tk','ç®¡ç†å“¡',null,'2016-04-01 17:00:58');
+INSERT INTO sys_user VALUES(1001,'test','123456','test@mybatis.tk','æ¸¬è©¦ç”¨æˆ¶',null,'2016-04-01 17:01:52'); 
 
-INSERT INTO sys_role VALUES(1,'ºŞ²z­û',1,1,'2016-04-01 17:02:14');
-INSERT INTO sys_role VALUES(2,'´¶³q¥Î¤á',1,1,'2016-04-01 17:02:34');
+INSERT INTO sys_role VALUES(1,'ç®¡ç†å“¡',1,1,'2016-04-01 17:02:14');
+INSERT INTO sys_role VALUES(2,'æ™®é€šç”¨æˆ¶',1,1,'2016-04-01 17:02:34');
 
 INSERT INTO sys_user_role VALUES(1,1);
 INSERT INTO sys_user_role VALUES(1,2);
 INSERT INTO sys_user_role VALUES(1001,2);
 
-INSERT INTO sys_privilege VALUES(1,'¥Î¤áºŞ²z','/users');
-INSERT INTO sys_privilege VALUES(2,'¨¤¦âºŞ²z','/roles');
-INSERT INTO sys_privilege VALUES(3,'¨t²Î¤é»x','/logs');
-INSERT INTO sys_privilege VALUES(4,'¤H­ûºûÅ@','/persons');
-INSERT INTO sys_privilege VALUES(5,'³æ¦ìºûÅ@','/companies');
+INSERT INTO sys_privilege VALUES(1,'ç”¨æˆ¶ç®¡ç†','/users');
+INSERT INTO sys_privilege VALUES(2,'è§’è‰²ç®¡ç†','/roles');
+INSERT INTO sys_privilege VALUES(3,'ç³»çµ±æ—¥èªŒ','/logs');
+INSERT INTO sys_privilege VALUES(4,'äººå“¡ç¶­è­·','/persons');
+INSERT INTO sys_privilege VALUES(5,'å–®ä½ç¶­è­·','/companies');
 
 INSERT INTO sys_role_privilege VALUES(1,1);
 INSERT INTO sys_role_privilege VALUES(1,3);
@@ -66,4 +66,9 @@ INSERT INTO sys_role_privilege VALUES(1,2);
 INSERT INTO sys_role_privilege VALUES(2,4);
 INSERT INTO sys_role_privilege VALUES(2,5);
 
-SELECT * FROM sys_user
+ALTER TABLE sys_user
+MODIFY COLUMN user_email VARCHAR(50) NULL DEFAULT 'test@mybatis.tk' COMMENT 'éƒµç®±' 
+AFTER user_password;
+ 
+
+
