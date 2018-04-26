@@ -18,4 +18,10 @@ public interface UserMapper {
 	public int insert2(SysUser sysUser);
 	
 	public int insert3(SysUser sysUser);
+	
+	public int updateById(SysUser sysUser);
+	
+	public int deleteById(Long id);
+	
+	public int deleteById(SysUser sysUser);
 }
