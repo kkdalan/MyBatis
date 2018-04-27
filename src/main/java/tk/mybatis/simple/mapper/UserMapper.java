@@ -34,6 +34,12 @@ public interface UserMapper {
 
 	public List<SysUser> selectByUser(SysUser sysUser);
 	
+	public List<SysUser> selectByUserWithOGNLBind(SysUser sysUser);
+	
+	public List<SysUser> selectByUserWithOGNLMethod(SysUser sysUser);
+	
+	public List<SysUser> selectByUserWithDatabaseProvider(SysUser sysUser);
+	
 	public int updateByIdSelective(SysUser sysUser);
 	
 	public int insert2Selective(SysUser sysUser);
@@ -48,4 +54,5 @@ public interface UserMapper {
 	
 	public int updateByMap(Map<String, Object> map);
 	
+	public int updateByMapWithPrint(Map<String, Object> map);
 }

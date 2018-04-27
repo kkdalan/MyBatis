@@ -292,6 +292,102 @@ public class UserMapperTest extends BaseMapperTest {
 	}
 	
 	@Test
+	public void testSelectByUserWithOGNLBind() {
+		SqlSession sqlSession = getSqlSession();
+		try {
+			UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+			
+			//只查詢用戶名時
+			SysUser query = new SysUser();
+			query.setUserName("ad");
+			List<SysUser> userList = userMapper.selectByUser(query);
+			Assert.assertTrue(userList.size() > 0);
+			
+			//只查詢用戶郵箱時
+			query = new SysUser();
+			query.setUserEmail("test@mybatis.tk");
+			userList = userMapper.selectByUserWithOGNLBind(query);
+			Assert.assertTrue(userList.size() > 0);
+
+			//當同時查詢用戶名與用戶郵箱時
+			query = new SysUser();
+			query.setUserName("ad");
+			query.setUserEmail("test@mybatis.tk");
+			userList = userMapper.selectByUser(query);
+			Assert.assertTrue(userList.size() == 0);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			sqlSession.close();
+		}
+	}
+	
+	@Test
+	public void testSelectByUserWithOGNLMethod() {
+		SqlSession sqlSession = getSqlSession();
+		try {
+			UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+			
+			//只查詢用戶名時
+			SysUser query = new SysUser();
+			query.setUserName("ad");
+			List<SysUser> userList = userMapper.selectByUser(query);
+			Assert.assertTrue(userList.size() > 0);
+			
+			//只查詢用戶郵箱時
+			query = new SysUser();
+			query.setUserEmail("test@mybatis.tk");
+			userList = userMapper.selectByUserWithOGNLMethod(query);
+			Assert.assertTrue(userList.size() > 0);
+
+			//當同時查詢用戶名與用戶郵箱時
+			query = new SysUser();
+			query.setUserName("ad");
+			query.setUserEmail("test@mybatis.tk");
+			userList = userMapper.selectByUser(query);
+			Assert.assertTrue(userList.size() == 0);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			sqlSession.close();
+		}
+	}
+	
+	@Test
+	public void testSelectByUserWithDatabaseProvider() {
+		SqlSession sqlSession = getSqlSession();
+		try {
+			UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+			
+			//只查詢用戶名時
+			SysUser query = new SysUser();
+			query.setUserName("ad");
+			List<SysUser> userList = userMapper.selectByUserWithDatabaseProvider(query);
+			Assert.assertTrue(userList.size() > 0);
+			
+			//只查詢用戶郵箱時
+			query = new SysUser();
+			query.setUserEmail("test@mybatis.tk");
+			userList = userMapper.selectByUser(query);
+			Assert.assertTrue(userList.size() > 0);
+
+			//當同時查詢用戶名與用戶郵箱時
+			query = new SysUser();
+			query.setUserName("ad");
+			query.setUserEmail("test@mybatis.tk");
+			userList = userMapper.selectByUser(query);
+			Assert.assertTrue(userList.size() == 0);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			sqlSession.close();
+		}
+	}
+	
+	@Test
 	public void testUpdateByIdSelective() {
 		SqlSession sqlSession = getSqlSession();
 		try {
@@ -452,6 +548,30 @@ public class UserMapperTest extends BaseMapperTest {
 			userMap.put("user_email", "test@mybatis.tk");
 			//更新數據
 			userMapper.updateByMap(userMap);
+			//查詢修改後數據
+			SysUser user = userMapper.selectById(1L);
+			Assert.assertEquals("12345678", user.getUserPassword());
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+//			sqlSession.commit();
+			sqlSession.rollback();
+			sqlSession.close();
+		}
+	}
+	
+	@Test
+	public void testUpdateByMapWithPrint() {
+		SqlSession sqlSession = getSqlSession();
+		try {
+			UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+			Map<String,Object> userMap = new HashMap<String,Object>();
+			userMap.put("id", 1L);
+			userMap.put("user_password", "12345678");
+			userMap.put("user_email", "test@mybatis.tk");
+			//更新數據
+			userMapper.updateByMapWithPrint(userMap);
 			//查詢修改後數據
 			SysUser user = userMapper.selectById(1L);
 			Assert.assertEquals("12345678", user.getUserPassword());

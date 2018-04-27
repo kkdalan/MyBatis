@@ -136,6 +136,69 @@
 		</where>
 	</select>
 	
+	<select id="selectByUserWithOGNLBind" resultType="tk.mybatis.simple.model.SysUser">
+		select id,
+		    user_name userName,
+		    user_password userPassword,
+		    user_email userEmail,
+		    user_info userInfo,
+		    head_img headImg,
+		    create_time createTime
+		from sys_user
+		<where>
+			<if test="userName != null and userName != ''">
+				<bind name="userNameLike" value="'%' + userName + '%'"/>
+				and user_name like #{userNameLike}
+			</if>
+			<if test="userEmail != null and userEmail != ''">
+				and user_email = #{userEmail}
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectByUserWithOGNLMethod" resultType="tk.mybatis.simple.model.SysUser">
+		select id,
+		    user_name userName,
+		    user_password userPassword,
+		    user_email userEmail,
+		    user_info userInfo,
+		    head_img headImg,
+		    create_time createTime
+		from sys_user
+		<where>
+			<if test="@tk.mybatis.util.StringUtil@isNotEmpty(userName)">
+				<bind name="userNameLike" value="'%' + userName + '%'"/>
+				and user_name like #{userNameLike}
+			</if>
+			<if test="userEmail != null and userEmail != ''">
+				and user_email = #{userEmail}
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectByUserWithDatabaseProvider" resultType="tk.mybatis.simple.model.SysUser">
+		select id,
+		    user_name userName,
+		    user_password userPassword,
+		    user_email userEmail,
+		    user_info userInfo,
+		    head_img headImg,
+		    create_time createTime
+		from sys_user
+		<where>
+			<if test="userName != null and userName != ''">
+				<if test="_databaseId == 'mysql'">
+					and user_name like concat('%',#{userName},'%')
+				</if>
+				<if test="_databaseId == 'oracle'">
+					and user_name like '%'||#{userName}||'%'
+				</if>
+			</if>
+			<if test="userEmail != null and userEmail != ''">
+				and user_email = #{userEmail}
+			</if>
+		</where>
+	</select>
 	<update id="updateByIdSelective">
 	    update sys_user
 	    <set>
@@ -244,6 +307,16 @@
 	</insert>
 	
 	<update id="updateByMap">
+	    update sys_user
+	    set	
+	    <foreach collection="_parameter" item="val" index="key" separator=",">
+	    	  ${key} = #{val}
+	    </foreach>
+	    where id = #{id}
+	</update>
+	
+	<update id="updateByMapWithPrint">
+		<bind name="print" value="@tk.mybatis.util.StringUtil@print(_parameter)"/>
 	    update sys_user
 	    set	
 	    <foreach collection="_parameter" item="val" index="key" separator=",">
