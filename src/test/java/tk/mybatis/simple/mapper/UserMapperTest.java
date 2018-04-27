@@ -10,6 +10,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.junit.Assert;
 import org.junit.Test;
 
+import tk.mybatis.simple.model.SysPrivilege;
 import tk.mybatis.simple.model.SysRole;
 import tk.mybatis.simple.model.SysUser;
 
@@ -642,4 +643,27 @@ public class UserMapperTest extends BaseMapperTest {
 		}
 	}
 
+	@Test
+	public void testSelectAllUserAndRoles() {
+		SqlSession sqlSession = getSqlSession();
+		try {
+			UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+			List<SysUser> userList = userMapper.selectAllUserAndRoles();
+			
+			System.out.println("用戶數: " + userList.size());
+			for(SysUser user : userList){
+				System.out.println("用戶名: " + user.getUserName());
+				for(SysRole role : user.getRoleList()){
+					System.out.println(" - 角色名: " + role.getRoleName());
+					for(SysPrivilege privilege: role.getPrivilegeList()){
+						System.out.println("    - 權限名: " + privilege.getPrivilegeName());
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			sqlSession.close();
+		}
+	}
 }

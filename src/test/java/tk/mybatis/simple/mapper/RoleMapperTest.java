@@ -7,7 +7,9 @@ import org.apache.ibatis.session.SqlSession;
 import org.junit.Assert;
 import org.junit.Test;
 
+import tk.mybatis.simple.model.SysPrivilege;
 import tk.mybatis.simple.model.SysRole;
+import tk.mybatis.simple.model.SysUser;
 
 public class RoleMapperTest extends BaseMapperTest {
 
@@ -200,6 +202,29 @@ public class RoleMapperTest extends BaseMapperTest {
 		}
 	}
 
+	@Test
+	public void testSelectAllRoleAndPrivileges() {
+		SqlSession sqlSession = getSqlSession();
+//		initMapper(sqlSession);
+		try {
+			RoleMapper roleMapper = sqlSession.getMapper(RoleMapper.class);
+			List<SysRole> roleList = roleMapper.selectAllRoleAndPrivileges();
+			 
+			System.out.println("角色數: " + roleList.size());
+			for (SysRole role : roleList) {
+				System.out.println(" - 角色名: " + role.getRoleName());
+				for (SysPrivilege privilege : role.getPrivilegeList()) {
+					System.out.println("    - 權限名: " + privilege.getPrivilegeName());
+				}
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			sqlSession.close();
+		}
+	}
+	
 	private static void initMapper(SqlSession sqlSession) {
 		if(!sqlSession.getConfiguration().getMapperRegistry().getMappers().contains(RoleMapper.class)){
 			sqlSession.getConfiguration().addMapper(RoleMapper.class);

@@ -62,4 +62,6 @@ public interface UserMapper {
 	
 	public SysUser selectUserAndRoleByIdSelect(Long id);
 	
+	public List<SysUser> selectAllUserAndRoles();
+	
 }
