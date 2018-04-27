@@ -6,6 +6,7 @@
 
 	<settings>
 		<setting name="logImpl" value="LOG4J" />
+		<setting name="aggressiveLazyLoading" value="false" />
 	</settings>
 
 	<typeAliases>
@@ -37,6 +38,7 @@
 	<mappers>
 		<mapper resource="tk/mybatis/simple/mapper/CountryMapper.xml" />
 		<mapper resource="tk/mybatis/simple/mapper/UserMapper.xml" />
+		<mapper resource="tk/mybatis/simple/mapper/RoleMapper.xml" />
 	</mappers>
 
 </configuration>

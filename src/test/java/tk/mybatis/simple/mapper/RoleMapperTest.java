@@ -8,7 +8,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import tk.mybatis.simple.model.SysRole;
-import tk.mybatis.simple.model.SysUser;
 
 public class RoleMapperTest extends BaseMapperTest {
 

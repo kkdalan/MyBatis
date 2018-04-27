@@ -55,4 +55,11 @@ public interface UserMapper {
 	public int updateByMap(Map<String, Object> map);
 	
 	public int updateByMapWithPrint(Map<String, Object> map);
+	
+	public SysUser selectUserAndRoleById(Long id);
+	
+	public SysUser selectUserAndRoleById2(Long id);
+	
+	public SysUser selectUserAndRoleByIdSelect(Long id);
+	
 }

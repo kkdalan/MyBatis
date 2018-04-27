@@ -55,5 +55,5 @@ public interface RoleMapper {
 	
 	@Delete({"delete from sys_role where id = #{id}"})
 	public int deleteById(Long id);
-	
+
 }
