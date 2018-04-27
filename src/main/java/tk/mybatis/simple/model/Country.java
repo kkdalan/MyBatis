@@ -1,7 +1,7 @@
 package tk.mybatis.simple.model;
 
 public class Country {
-	
+
 	private Long id;
 	private String countryname;
 	private String countrycode;
