@@ -7,7 +7,7 @@ public class PrivilegeProvider {
 	public String selectById(final Long id){
 		return new SQL(){
 			{
-				SELECT("id, privilege_name, privilege_url");
+				SELECT("id, privilege_name privilegeName, privilege_url privilegeUrl");
 				FROM("sys_privilege");
 				WHERE("id = #{id}");
 			}
