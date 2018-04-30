@@ -59,5 +59,7 @@ public interface RoleMapper {
 	public List<SysRole> selectAllRoleAndPrivileges();
 	
 	public List<SysRole> selectRoleByUserId(Long userId);
+	
+	public List<SysRole> selectRoleByUserIdChoose(Long userId);
 
 }
