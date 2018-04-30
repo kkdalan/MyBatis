@@ -16,35 +16,35 @@ public interface UserMapper {
 
 	public List<SysRole> selectRolesByUserId(Long userId);
 
-	public int insert(SysUser sysUser);
+	public int insert(SysUser user);
 
-	public int insert2(SysUser sysUser);
+	public int insert2(SysUser user);
 	
-	public int insert3(SysUser sysUser);
+	public int insert3(SysUser user);
 
-	public int updateById(SysUser sysUser);
+	public int updateById(SysUser user);
 
 	public int deleteById(Long id);
 
-	public int deleteById(SysUser sysUser);
+	public int deleteById(SysUser user);
 
 	public List<SysRole> selectRolesByUserIdAndRoleEnabled(@Param("userId") Long userId, @Param("enabled") Integer enabled);
 
 	public List<SysRole> selectRolesByUserAndRole(@Param("user") SysUser user, @Param("role") SysRole role);
 
-	public List<SysUser> selectByUser(SysUser sysUser);
+	public List<SysUser> selectByUser(SysUser user);
 	
-	public List<SysUser> selectByUserWithOGNLBind(SysUser sysUser);
+	public List<SysUser> selectByUserWithOGNLBind(SysUser user);
 	
-	public List<SysUser> selectByUserWithOGNLMethod(SysUser sysUser);
+	public List<SysUser> selectByUserWithOGNLMethod(SysUser user);
 	
-	public List<SysUser> selectByUserWithDatabaseProvider(SysUser sysUser);
+	public List<SysUser> selectByUserWithDatabaseProvider(SysUser user);
 	
-	public int updateByIdSelective(SysUser sysUser);
+	public int updateByIdSelective(SysUser user);
 	
-	public int insert2Selective(SysUser sysUser);
+	public int insert2Selective(SysUser user);
 	
-	public SysUser selectByIdOrUserName(SysUser sysUser);
+	public SysUser selectByIdOrUserName(SysUser user);
 	
 	public List<SysUser> selectByIdList(List<Long> idList);
 	
@@ -65,4 +65,12 @@ public interface UserMapper {
 	public List<SysUser> selectAllUserAndRoles();
 
 	public SysUser selectAllUserAndRolesSelect(Long id);
+	
+	public void selectUserById(SysUser user);
+	
+	public List<SysUser> selectUserPage(Map<String, Object> params);
+
+	public int insertUserAndRoles(@Param("user") SysUser user, @Param("roleIds") String roleIds);
+
+	public int deleteUserById(Long id);
 }

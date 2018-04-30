@@ -687,4 +687,94 @@ public class UserMapperTest extends BaseMapperTest {
 			sqlSession.close();
 		}
 	}
+	
+	@Test
+	public void testSelectUserById() {
+		SqlSession sqlSession = getSqlSession();
+		try {
+			UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+			SysUser user = new SysUser();
+			user.setId(1L);
+			userMapper.selectUserById(user);
+			
+			Assert.assertNotNull(user.getUserName());
+			System.out.println("用戶名: " + user.getUserName());
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			sqlSession.close();
+		}
+	}
+	
+	@Test
+	public void testSelectUserPage() {
+		SqlSession sqlSession = getSqlSession();
+		try {
+			UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+			//插入大量數據
+			int c = 1000;
+			for (int i = 0; i < c; i++) {
+				SysUser user = new SysUser();
+				user.setUserName("test" + i);
+				user.setUserPassword("123456");
+				user.setUserEmail("test@mybatis.tk");
+				user.setUserInfo("test info");
+				user.setHeadImg(new byte[] { 1, 2, 3 });
+				user.setCreateTime(new Date());
+				userMapper.insert(user);
+			}
+			System.out.println("---- 已增加" + c + "筆數據 ----");
+			
+			//測試分頁查詢
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("userName", "test");
+			params.put("offset", 2);
+			params.put("limit", 10);
+			List<SysUser> userList = userMapper.selectUserPage(params);
+			
+			Long total = (Long) params.get("total");
+			System.out.println("總數: " + total);
+			for(SysUser user : userList){
+				System.out.println("用戶名: " + user.getUserName());
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			sqlSession.close();
+		}
+	}
+
+	@Test
+	public void testInsertAndDeleteById() {
+		SqlSession sqlSession = getSqlSession();
+		try {
+			UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+			
+			//建立一個User對像
+			SysUser user = new SysUser();
+			user.setUserName("test1");
+			user.setUserPassword("123456");
+			user.setUserEmail("test@mybatis.tk");
+			user.setUserInfo("test info");
+			user.setHeadImg(new byte[]{1,2,3});
+			//插入用戶和角色關聯信息
+			userMapper.insertUserAndRoles(user, "1,2");
+			Assert.assertNotNull(user.getId());
+			Assert.assertNotNull(user.getCreateTime());
+			
+			//執行commit後確認數據庫資訊
+			sqlSession.commit();
+
+			//測試刪除剛剛插入的數據
+			userMapper.deleteUserById(user.getId());
+			sqlSession.commit();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			sqlSession.close();
+		}
+	}
 }

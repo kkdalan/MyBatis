@@ -345,16 +345,6 @@
 		where u.id = #{id}
 	</select>
 	
-	<!-- 搬到RoleMapper.xml
-	<resultMap id="roleMap" extends="userMap" type="tk.mybatis.simple.model.SysRole">
-		<id property="id" column="id"/>
-		<result property="roleName" column="role_name"/>
-		<result property="enabled" column="enabled"/>
-		<result property="createBy" column="create_by" />
-		<result property="createTime" column="create_time" jdbcType="TIMESTAMP"  />
-	</resultMap>
-	 -->
-	 
 	<resultMap id="userRoleMap" extends="userMap" type="tk.mybatis.simple.model.SysUser">
 		<association property="role" columnPrefix="role_" resultMap="tk.mybatis.simple.mapper.RoleMapper.roleMap"/>
 	</resultMap>
@@ -434,7 +424,7 @@
 	</resultMap>
 	
 	<select id="selectAllUserAndRolesSelect" resultMap="userRoleListMapSelect">
-		select id,
+		select u.id,
 		    u.user_name,
 		    u.user_password,
 		    u.user_email,
@@ -445,5 +435,43 @@
 		where u.id = #{id}
 	</select>
 	 
+	<select id="selectUserById" statementType="CALLABLE" useCache="false">
+		{ call select_user_by_id(
+		  	#{id, mode=IN},
+		  	#{userName, mode=OUT, jdbcType=VARCHAR},
+		  	#{userPassword, mode=OUT, jdbcType=VARCHAR},
+		  	#{userEmail, mode=OUT, jdbcType=VARCHAR},
+		  	#{userInfo, mode=OUT, jdbcType=VARCHAR},
+		  	#{headImg, mode=OUT, jdbcType=BLOB, javaType=_byte[]},
+		  	#{createTime, mode=OUT, jdbcType=TIMESTAMP}
+		)}
+	</select>
 	
+	<select id="selectUserPage" statementType="CALLABLE" useCache="false" resultMap="userMap">
+		{ call select_user_page(
+		  	#{userName, mode=IN},
+		  	#{offset, mode=IN},
+		  	#{limit, mode=IN},
+		  	#{total, mode=OUT, jdbcType=BIGINT}
+		)}
+	</select>
+	
+	<insert id="insertUserAndRoles" statementType="CALLABLE">
+		{ call insert_user_and_roles(
+		  	#{user.id, mode=OUT, jdbcType=BIGINT},
+		  	#{user.userName, mode=IN},
+		  	#{user.userPassword, mode=IN},
+		  	#{user.userEmail, mode=IN},
+		  	#{user.userInfo, mode=IN},
+		  	#{user.headImg, mode=IN, jdbcType=BLOB},
+		  	#{user.createTime, mode=OUT, jdbcType=TIMESTAMP},
+		  	#{roleIds, mode=IN}
+		)}
+	</insert>
+	
+	<delete id="deleteUserById"  statementType="CALLABLE">
+	    { call delete_user_by_id( 
+	    	#{id, mode=IN}
+		)}
+	</delete>
 </mapper> 
