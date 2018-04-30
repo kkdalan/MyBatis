@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import tk.mybatis.simple.model.SysPrivilege;
 import tk.mybatis.simple.model.SysRole;
+import tk.mybatis.simple.type.Enabled;
 
 public class RoleMapperTest extends BaseMapperTest {
 
@@ -81,7 +82,7 @@ public class RoleMapperTest extends BaseMapperTest {
 			RoleMapper roleMapper = sqlSession.getMapper(RoleMapper.class);
 			SysRole role = new SysRole();
 			role.setRoleName("進階用戶");
-			role.setEnabled(1);
+			role.setEnabled(Enabled.ENABLED);
 			role.setCreateBy("1");
 			role.setCreateTime(new Date());
 			int result = roleMapper.insert(role);
@@ -106,7 +107,7 @@ public class RoleMapperTest extends BaseMapperTest {
 			RoleMapper roleMapper = sqlSession.getMapper(RoleMapper.class);
 			SysRole role = new SysRole();
 			role.setRoleName("進階用戶2");
-			role.setEnabled(1);
+			role.setEnabled(Enabled.ENABLED);
 			role.setCreateBy("1");
 			role.setCreateTime(new Date());
 			int result = roleMapper.insert2(role);
@@ -132,7 +133,7 @@ public class RoleMapperTest extends BaseMapperTest {
 			RoleMapper roleMapper = sqlSession.getMapper(RoleMapper.class);
 			SysRole role = new SysRole();
 			role.setRoleName("進階用戶3");
-			role.setEnabled(1);
+			role.setEnabled(Enabled.ENABLED);
 			role.setCreateBy("1");
 			role.setCreateTime(new Date());
 			int result = roleMapper.insert3(role);
@@ -239,7 +240,7 @@ public class RoleMapperTest extends BaseMapperTest {
 			
 			//更新角色為不可用
 			SysRole role = roleMapper.selectById(2L);
-			role.setEnabled(0);
+			role.setEnabled(Enabled.DISABLED);
 			roleMapper.updateById(role);
 			
 			//獲取用戶1的角色
@@ -262,6 +263,27 @@ public class RoleMapperTest extends BaseMapperTest {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
+			sqlSession.close();
+		}
+	}
+	
+	@Test
+	public void testUpdateByIdWithEnum() {
+		SqlSession sqlSession = getSqlSession();
+		initMapper(sqlSession);
+		try {
+			RoleMapper roleMapper = sqlSession.getMapper(RoleMapper.class);
+			
+			SysRole role = roleMapper.selectById(2L);
+			Assert.assertEquals( Enabled.ENABLED, role.getEnabled());
+			
+			role.setEnabled(Enabled.DISABLED);
+			roleMapper.updateById(role);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			sqlSession.rollback();
 			sqlSession.close();
 		}
 	}

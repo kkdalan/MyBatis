@@ -3,15 +3,18 @@ package tk.mybatis.simple.model;
 import java.util.Date;
 import java.util.List;
 
+import tk.mybatis.simple.type.Enabled;
+
 public class SysRole {
+	
 	private Long id;
 	private String roleName;
-	private Integer enabled;
+	private Enabled enabled;
 	private String createBy;
 	private Date createTime;
 
 	private CreateInfo createInfo;
-	
+
 	private SysUser user;
 	private List<SysPrivilege> privilegeList;
 
@@ -31,11 +34,11 @@ public class SysRole {
 		this.roleName = roleName;
 	}
 
-	public Integer getEnabled() {
+	public Enabled getEnabled() {
 		return enabled;
 	}
 
-	public void setEnabled(Integer enabled) {
+	public void setEnabled(Enabled enabled) {
 		this.enabled = enabled;
 	}
 

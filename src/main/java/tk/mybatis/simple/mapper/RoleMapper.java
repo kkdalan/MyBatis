@@ -34,15 +34,15 @@ public interface RoleMapper {
 	public List<SysRole> selectAll();
 	
 	@Insert({"insert into sys_role(id, role_name, enabled, create_by, create_time) values(#{id}, #{roleName}, #{enabled}, #{createBy}, #{createTime, jdbcType=TIMESTAMP})"})
-	public int insert(SysRole sysRole);
+	public int insert(SysRole role);
 	
 	@Insert({"insert into sys_role(role_name, enabled, create_by, create_time) values(#{roleName}, #{enabled}, #{createBy}, #{createTime, jdbcType=TIMESTAMP})"})
 	@Options(useGeneratedKeys = true, keyProperty = "id")
-	public int insert2(SysRole sysRole);
+	public int insert2(SysRole role);
 	
 	@Insert({"insert into sys_role(role_name, enabled, create_by, create_time) values(#{roleName}, #{enabled}, #{createBy}, #{createTime, jdbcType=TIMESTAMP})"})
 	@SelectKey(statement = "SELECT LAST_INSERT_ID()", keyProperty = "id", resultType = Long.class, before = false)
-	public int insert3(SysRole sysRole);
+	public int insert3(SysRole role);
 	
 	@Update({"update sys_role",
 		     "set role_name = #{roleName},",
@@ -51,7 +51,7 @@ public interface RoleMapper {
 		     "    create_time = #{createTime, jdbcType=TIMESTAMP}",
 		     "where id = #{id}"
 	})
-	public int updateById(SysRole sysRole);
+	public int updateById(SysRole role);
 	
 	@Delete({"delete from sys_role where id = #{id}"})
 	public int deleteById(Long id);
