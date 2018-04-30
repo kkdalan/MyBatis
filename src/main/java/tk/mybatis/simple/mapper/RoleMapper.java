@@ -57,5 +57,7 @@ public interface RoleMapper {
 	public int deleteById(Long id);
 	
 	public List<SysRole> selectAllRoleAndPrivileges();
+	
+	public List<SysRole> selectRoleByUserId(Long userId);
 
 }

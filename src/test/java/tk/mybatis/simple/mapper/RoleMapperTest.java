@@ -9,10 +9,15 @@ import org.junit.Test;
 
 import tk.mybatis.simple.model.SysPrivilege;
 import tk.mybatis.simple.model.SysRole;
-import tk.mybatis.simple.model.SysUser;
 
 public class RoleMapperTest extends BaseMapperTest {
 
+	private static void initMapper(SqlSession sqlSession) {
+		if(!sqlSession.getConfiguration().getMapperRegistry().getMappers().contains(RoleMapper.class)){
+			sqlSession.getConfiguration().addMapper(RoleMapper.class);
+		}
+	}
+	
 	@Test
 	public void testSelectById() {
 		SqlSession sqlSession = getSqlSession();
@@ -225,9 +230,4 @@ public class RoleMapperTest extends BaseMapperTest {
 		}
 	}
 	
-	private static void initMapper(SqlSession sqlSession) {
-		if(!sqlSession.getConfiguration().getMapperRegistry().getMappers().contains(RoleMapper.class)){
-			sqlSession.getConfiguration().addMapper(RoleMapper.class);
-		}
-	}
 }

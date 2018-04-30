@@ -10,6 +10,8 @@ public class SysRole {
 	private String createBy;
 	private Date createTime;
 
+	private CreateInfo createInfo;
+	
 	private SysUser user;
 	private List<SysPrivilege> privilegeList;
 
@@ -67,6 +69,14 @@ public class SysRole {
 
 	public void setPrivilegeList(List<SysPrivilege> privilegeList) {
 		this.privilegeList = privilegeList;
+	}
+
+	public CreateInfo getCreateInfo() {
+		return createInfo;
+	}
+
+	public void setCreateInfo(CreateInfo createInfo) {
+		this.createInfo = createInfo;
 	}
 
 }

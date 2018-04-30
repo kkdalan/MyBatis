@@ -428,4 +428,22 @@
 		inner join sys_privilege p on p.id = rp.privilege_id
 	</select>
 	
+	<resultMap id="userRoleListMapSelect" extends="userMap" type="tk.mybatis.simple.model.SysUser">
+		<collection property="roleList"  fetchType="lazy" column="userId=id"
+					select="tk.mybatis.simple.mapper.RoleMapper.selectRoleByUserId" />
+	</resultMap>
+	
+	<select id="selectAllUserAndRolesSelect" resultMap="userRoleListMapSelect">
+		select id,
+		    u.user_name,
+		    u.user_password,
+		    u.user_email,
+		    u.user_info,
+		    u.head_img,
+		    u.create_time
+		from sys_user u
+		where u.id = #{id}
+	</select>
+	 
+	
 </mapper> 
