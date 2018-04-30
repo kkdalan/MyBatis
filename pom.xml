@@ -46,10 +46,19 @@
 			<version>1.2.17</version>
 		</dependency>
 		
+		<!-- ehcache 二級緩存集成 -->
 		<dependency>
 			<groupId>org.mybatis.caches</groupId>
 			<artifactId>mybatis-ehcache</artifactId>
 			<version>1.0.3</version>
+		</dependency>
+		
+		<!-- Redis 二級緩存集成 -->
+		<!-- Redis安裝: http://www.runoob.com/redis/redis-install.html -->
+		<dependency>
+			<groupId>org.mybatis.caches</groupId>
+			<artifactId>mybatis-redis</artifactId>
+			<version>1.0.0-beta2</version>
 		</dependency>
 		
 		<!-- MyBatis 代碼生成器 -->

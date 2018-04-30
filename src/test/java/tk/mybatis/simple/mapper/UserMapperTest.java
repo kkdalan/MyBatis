@@ -777,4 +777,5 @@ public class UserMapperTest extends BaseMapperTest {
 			sqlSession.close();
 		}
 	}
+
 }

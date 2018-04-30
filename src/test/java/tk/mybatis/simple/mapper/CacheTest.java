@@ -89,4 +89,58 @@ public class CacheTest extends BaseMapperTest{
 			sqlSession.close();
 		}
 	}
+
+	@Test
+	public void testDirtyData() {
+		SqlSession sqlSession = getSqlSession();
+		try {
+			UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+			SysUser user = userMapper.selectUserAndRoleById(1001L);
+			Assert.assertEquals("普通用戶", user.getRole().getRoleName());
+			System.out.println("角色名: " + user.getRole().getRoleName());
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			sqlSession.close();
+		}
+		
+		System.out.println("---- 開啟另一個新的SqlSession ----");
+		sqlSession = getSqlSession();
+		try {
+			RoleMapper roleMapper = sqlSession.getMapper(RoleMapper.class);
+			SysRole role = roleMapper.selectById(2L);
+			role.setRoleName("贓數據");
+			roleMapper.updateById(role);
+			sqlSession.commit();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			sqlSession.close();
+		}
+		
+		System.out.println("---- 開啟另一個新的SqlSession ----");
+		sqlSession = getSqlSession();
+		try {
+			UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+			RoleMapper roleMapper = sqlSession.getMapper(RoleMapper.class);
+			SysUser user = userMapper.selectUserAndRoleById(1001L);
+			SysRole role = roleMapper.selectById(2L);
+			Assert.assertNotEquals("普通用戶", user.getRole().getRoleName());
+			Assert.assertEquals("贓數據", role.getRoleName());
+			System.out.println("角色名: " + user.getRole().getRoleName());
+			
+			//還原數據
+			role.setRoleName("普通用戶");
+			roleMapper.updateById(role);
+			sqlSession.commit();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			sqlSession.close();
+		}
+		
+	}
 }
