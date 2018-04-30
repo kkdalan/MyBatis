@@ -2,6 +2,7 @@ package tk.mybatis.simple.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.CacheNamespaceRef;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Options;
@@ -14,6 +15,7 @@ import org.apache.ibatis.annotations.Update;
 
 import tk.mybatis.simple.model.SysRole;
 
+@CacheNamespaceRef(RoleMapper.class)
 public interface RoleMapper {
 	
 	@Select({"select id, role_name roleName, enabled, create_by createBy, create_time createTime from sys_role where id = #{id}"})

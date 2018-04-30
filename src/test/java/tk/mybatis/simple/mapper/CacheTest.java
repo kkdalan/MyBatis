@@ -4,6 +4,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.junit.Assert;
 import org.junit.Test;
 
+import tk.mybatis.simple.model.SysRole;
 import tk.mybatis.simple.model.SysUser;
 
 public class CacheTest extends BaseMapperTest{
@@ -40,6 +41,46 @@ public class CacheTest extends BaseMapperTest{
 			userMapper.deleteById(2L);
 			SysUser user3 = userMapper.selectById(1L);
 			Assert.assertNotEquals(user2, user3);
+			
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			sqlSession.close();
+		}
+	}
+	
+	@Test
+	public void testL2Cache(){
+		SqlSession sqlSession = getSqlSession();
+		SysRole role1  = null;
+		try {
+			RoleMapper roleMapper = sqlSession.getMapper(RoleMapper.class);
+			role1 = roleMapper.selectById(1L);
+			role1.setRoleName("New Name");
+			
+			SysRole role2 = roleMapper.selectById(1L);
+			
+			Assert.assertEquals("New Name", role2.getRoleName());
+			Assert.assertEquals(role1, role2);
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			sqlSession.close();
+		}
+		
+		System.out.println("---- 開啟新的SqlSession ----");
+		sqlSession = getSqlSession();
+		try {
+			RoleMapper roleMapper = sqlSession.getMapper(RoleMapper.class);
+			SysRole role2 = roleMapper.selectById(1L);
+			
+			Assert.assertEquals("New Name", role2.getRoleName());
+			Assert.assertNotEquals(role1, role2);
+			
+			SysRole role3 = roleMapper.selectById(1L);
+			Assert.assertNotEquals(role2, role3);
 			
 			
 		}catch(Exception e){

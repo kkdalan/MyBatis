@@ -1,11 +1,14 @@
 package tk.mybatis.simple.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 import tk.mybatis.simple.type.Enabled;
 
-public class SysRole {
+public class SysRole implements Serializable{
+	
+	private static final long serialVersionUID = -4932328774224713416L;
 	
 	private Long id;
 	private String roleName;
